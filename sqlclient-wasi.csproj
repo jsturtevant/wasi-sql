@@ -10,15 +10,19 @@
     <PublishTrimmed>true</PublishTrimmed>
     <InvariantGlobalization>false</InvariantGlobalization>
     <MSBuildEnableWorkloadResolver>false</MSBuildEnableWorkloadResolver>
-    <WASI_SDK_PATH>C:\Users\jstur\.wasi-sdk\wasi-sdk-24.0\</WASI_SDK_PATH>
+    <WASI_SDK_PATH>/home/jstur/wasi-sdk-24.0-x86_64-linux</WASI_SDK_PATH>
   </PropertyGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" Version="9.0.0-*" />
-    <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" Version="9.0.0-*" />
+    <PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" Version="9.0.0-dev" />
+    <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" Version="9.0.0-dev" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SqlClient\src\Microsoft.Data.SqlClient\netcore\src\Microsoft.Data.SqlClient.csproj" />
+    <ProjectReference Include="../SqlClient/src/Microsoft.Data.SqlClient/netcore/src/Microsoft.Data.SqlClient.csproj" />
+  </ItemGroup>
+  <!-- todo why is this needed here and not in sql client projects? -->
+   <ItemGroup>
+    <CustomLinkerArg Include="-Wl,--component-type,ImportsWorld_component_type.wit" />
   </ItemGroup>
 </Project>
