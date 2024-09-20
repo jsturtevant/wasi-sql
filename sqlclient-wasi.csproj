@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
@@ -17,11 +18,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" Version="9.0.0-dev" />
     <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" Version="9.0.0-dev" />
+     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.0-dev"  />
+      <PackageReference Include="Wasi.Tls" Version="0.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../SqlClient/src/Microsoft.Data.SqlClient/netcore/src/Microsoft.Data.SqlClient.csproj" />
+   
   </ItemGroup>
-  <!-- todo why is this needed here and not in sql client projects? -->
+  <!-- todo why is this needed here and not in wasi.tls project? -->
    <ItemGroup>
     <CustomLinkerArg Include="-Wl,--component-type,ImportsWorld_component_type.wit" />
   </ItemGroup>

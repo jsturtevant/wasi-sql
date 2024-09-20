@@ -8,8 +8,18 @@ public class App
 {
     static int Main(string[] args)
     {
+        string address = "";
+        string additionalParams = "";
+        if (args.Length >= 1)
+        {
+            address = args[0];
+        }
+        if (args.Length >= 2)
+        {
+            additionalParams = args[1];
+        }
 
-        var task = MainAsync(args[0]);
+        var task = MainAsync(address, additionalParams);
         if (!OperatingSystem.IsWasi())
         {
             Console.WriteLine("Hello!");
@@ -33,9 +43,9 @@ public class App
         return 0;
     }
 
-    static async Task MainAsync(string addressString)
+    static async Task MainAsync(string addressString, string additionalParams)
     {
-        string s = GetConnectionString(addressString);
+        string s = GetConnectionString(addressString, additionalParams);
         await OpenSqlConnection(s);
     }
 
@@ -61,11 +71,21 @@ public class App
         }
     }
 
-    static string GetConnectionString(string addressString)
+    static string GetConnectionString(string addressString, string additionalParams)
     {
+        if (String.IsNullOrEmpty(addressString))
+        {
+            addressString ="127.0.0.1,1433";
+        }
+
+        if (String.IsNullOrEmpty(additionalParams))
+        {
+            additionalParams = "TrustServerCertificate=True";
+        }
+
         // using local sql server with self generated cert so set TrustServerCertificate=True
         //return "Data Source=james-ms\\SQLEXPRESS;Initial Catalog=test;;TrustServerCertificate=True;Integrated Security=SSPI;";
-        return $"Server=tcp:{addressString};Database=HelloWorld;User ID=sa;Password=YourStrong@Passw0rd!;Pooling=false;TrustServerCertificate=True;Encrypt=false";
+        return $"Server=tcp:{addressString};Database=HelloWorld;User ID=sa;Password=YourStrong@Passw0rd!;Pooling=false;{additionalParams}";
     }
 
     internal static class WasiEventLoop
